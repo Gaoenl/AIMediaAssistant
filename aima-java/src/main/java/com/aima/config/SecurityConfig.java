@@ -34,9 +34,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(a -> a
                         // 白名单:登录、Java↔Python 内部接口、错误页
                         .requestMatchers(
-                                AntPathRequestMatcher.antMatcher("/api/v1/auth/login"),
-                                AntPathRequestMatcher.antMatcher("/internal/**"),
-                                AntPathRequestMatcher.antMatcher("/error"))
+                                new AntPathRequestMatcher("/api/v1/auth/login"),
+                                new AntPathRequestMatcher("/internal/**"),
+                                new AntPathRequestMatcher("/error"))
                         .permitAll()
                         // 其余接口必须携带有效 JWT
                         .anyRequest().authenticated())
