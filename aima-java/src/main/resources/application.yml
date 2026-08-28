@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: aima-java
+
+rocketmq:
+  name-server: ${ROCKETMQ_NAME_SERVER:127.0.0.1:9876}
+  producer:
+    group: aima-producer-group
+
+aima:
+  jwt:
+    # M1 骨架用固定密钥,生产必须用环境变量注入(>=32 字节)
+    secret: ${AIMA_JWT_SECRET:aima-m1-dev-secret-change-me-please-32bytes}
+    expire-hours: 24
