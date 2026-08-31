@@ -3,9 +3,10 @@
 M2 需补充内部签名鉴权(请求头携带 appKey + 签名),防止 /internal 被外部调用。
 """
 import httpx
-
+import logging
 from app.core.config import settings
 from app.schemas.task import GenerationResult, TaskInfo
+logger = logging.getLogger(__name__)
 
 
 class JavaClient:
@@ -20,12 +21,22 @@ class JavaClient:
         resp.raise_for_status()
         return TaskInfo.model_validate(resp.json()["data"])
 
+    def start_task(self, task_id: str) -> None:
+        """通知 Java 置 RUNNING(消息消费后、生成前调用)。"""
+        resp = self._client.post(f"/internal/v1/tasks/{task_id}/start")
+        if resp.status_code == 409:
+            logger.info("任务已启动或已结束,忽略 start taskId=%s", task_id)
+            return
+        resp.raise_for_status()
     def send_callback(self, task_id: str, result: GenerationResult) -> None:
         """生成完成后回调 Java,由 Java 落库并更新任务状态。"""
         resp = self._client.post(
             f"/internal/v1/tasks/{task_id}/callback",
             json=result.model_dump(exclude_none=True),
         )
+        if resp.status_code == 409:
+            logger.info("任务已结束,忽略回调 taskId=%s", task_id)
+            return
         resp.raise_for_status()
 
 

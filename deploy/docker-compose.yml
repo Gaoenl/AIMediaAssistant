@@ -1,0 +1,43 @@
+# =========================================================
+# AIMA 本地开发环境编排
+#
+# 用法:
+#   1) 复制 .env 为 .env,填写服务器 RocketMQ 地址
+#   2) docker compose up -d --build
+#   3) docker compose logs -f aima-python
+#
+# 说明:RocketMQ 在服务器上运行,因此这里不包含 MQ 服务;
+#       Java 后端当前在本地 Windows 直接 mvn spring-boot:run,容器化后在此追加。
+# =========================================================
+services:
+  aima-python:
+    build:
+      context: ../aima-python
+      dockerfile: Dockerfile
+    container_name: aima-python
+    environment:
+      # 必填:服务器 RocketMQ NameServer 地址(见 deploy/.env)
+      AIMA_ROCKETMQ_NAMESERVER: ${AIMA_ROCKETMQ_NAMESERVER:?请在 deploy/.env 中配置 AIMA_ROCKETMQ_NAMESERVER}
+      # Python 容器内访问宿主机(Windows 上的 Java:8080)用 host.docker.internal
+      AIMA_JAVA_BASE_URL: ${AIMA_JAVA_BASE_URL:-http://host.docker.internal:8080}
+      AIMA_MODEL_PROVIDER: ${AIMA_MODEL_PROVIDER:-mock}
+      AIMA_MODEL_NAME: ${AIMA_MODEL_NAME:-deepseek-chat}
+      AIMA_DEEPSEEK_API_KEY: ${AIMA_DEEPSEEK_API_KEY:-}
+      AIMA_QWEN_API_KEY: ${AIMA_QWEN_API_KEY:-}
+      AIMA_HUNYUAN_API_KEY: ${AIMA_HUNYUAN_API_KEY:-}
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  # ---- Java 后端容器化后启用(当前本地直接跑 mvn spring-boot:run)----
+  # aima-java:
+  #   build:
+  #     context: ../aima-java
+  #     dockerfile: Dockerfile
+  #   container_name: aima-java
+  #   environment:
+  #     ROCKETMQ_NAME_SERVER: ${AIMA_ROCKETMQ_NAMESERVER}
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - aima-python

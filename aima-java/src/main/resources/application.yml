@@ -5,9 +5,14 @@ spring:
   application:
     name: aima-java
   datasource:
+    hikari:
+      keepalive-time: 60000      # 每 60s 对空闲连接探活,防止被 NAT/防火墙静默掐断
+      max-lifetime: 600000       # 连接最长存活 10 分钟,低于 NAT 空闲超时
+      minimum-idle: 1
+      maximum-pool-size: 10
     url: ${AIMA_DB_URL:jdbc:postgresql://localhost:5432/aima}
-    username: ${AIMA_DB_USERNAME:aima}
-    password: ${AIMA_DB_PASSWORD:aima123456}
+    username: ${AIMA_DB_USERNAME:gel}
+    password: ${AIMA_DB_PASSWORD:990901}
     driver-class-name: org.postgresql.Driver
   flyway:
     enabled: true

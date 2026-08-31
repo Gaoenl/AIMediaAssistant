@@ -2,23 +2,9 @@
 import asyncio
 
 from app.schemas.task import GenerationResult
-
+"""生成服务:M2 起由 LangGraph 编排 创作->编辑->质检 流程。"""
+from app.agents.orchestrator import run_generation
 
 async def generate_article(topic: str, style_prompt: str) -> GenerationResult:
-    """根据主题与风格生成一篇文章。
-
-    M1:模拟 2 秒耗时后返回占位内容,用于打通 MQ → 生成 → 回调链路。
-    M2:创作 Agent(大纲→正文)→ 编辑 Agent(分段/AI 词过滤)→ 质检(打分),
-       见开发方案 M2 里程碑。
-    """
-    await asyncio.sleep(2)
-    return GenerationResult(
-        status="SUCCESS",
-        title=f"关于「{topic}」的深度解读",
-        content=(
-            f"# 关于「{topic}」的深度解读\n\n"
-            f"这是一篇由 AIMA 生成的示例文章,风格:{style_prompt}\n\n"
-            "本段为 M1 占位内容,后续由创作 Agent 生成。"
-        ),
-        qualityScore=85,
-    )
+      """根据主题与风格执行完整生成链路(mock 或真实模型)。"""
+      return await run_generation(topic, style_prompt)

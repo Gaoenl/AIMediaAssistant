@@ -14,6 +14,7 @@ class TaskInfo(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
     qualityScore: Optional[int] = None
+    error: Optional[str] = None
 
 
 class GenerationResult(BaseModel):
@@ -23,3 +24,4 @@ class GenerationResult(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
     qualityScore: Optional[int] = None
+    error: Optional[str] = None  # 失败原因

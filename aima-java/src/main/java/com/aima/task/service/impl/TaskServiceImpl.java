@@ -62,13 +62,14 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskView start(String id) {
         GenerationTask task = require(id);
-        if (!"PENDING".equals(task.getStatus())) {
-            throw new BusinessException(409, "任务当前状态不可开始:" + task.getStatus());
+        // 幂等:MQ 重投消息可能重复触发 start,PENDING 才推进,其余状态直接返回
+        if ("PENDING".equals(task.getStatus())) {
+            task.setStatus("RUNNING");
+            task.setUpdatedAt(Instant.now());
+            taskMapper.updateById(task);
         }
-        task.setStatus("RUNNING");
-        task.setUpdatedAt(Instant.now());
-        taskMapper.updateById(task);
         return toView(task);
+
     }
 
     /**

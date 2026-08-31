@@ -18,10 +18,18 @@ class Settings(BaseSettings):
     consumer_group: str = "aima-generation-group"
     topic: str = "aima-generation-task"
 
-    # 模型配置(M2 启用):当前默认 mock,不产生真实调用费用
-    model_provider: str = "mock"  # mock / deepseek / qwen / hunyuan
-    model_name: str = "deepseek-v3"
-
+    # ---- 模型配置(M2)----
+    model_provider: str = "deepseek"  # mock / deepseek / qwen / hunyuan
+    model_name: str = "deepseek-v4-flash"
+    quality_threshold: int = 75  # 质检通过线
+    quality_max_attempts: int = 3  # 质检不达标时的重写轮数上限
+    # 各供应商 OpenAI 兼容 endpoint 与密钥
+    deepseek_base_url: str = "https://api.deepseek.com"
+    deepseek_api_key: str = ""
+    qwen_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    qwen_api_key: str = ""
+    hunyuan_base_url: str = "https://api.hunyuan.cloud.tencent.com/v1"
+    hunyuan_api_key: str = ""
     model_config = SettingsConfigDict(env_prefix="AIMA_", env_file=".env")
 
 
