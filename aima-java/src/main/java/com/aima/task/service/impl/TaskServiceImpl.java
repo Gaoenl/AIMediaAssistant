@@ -9,6 +9,7 @@ import com.aima.task.mapper.GenerationTaskMapper;
 import com.aima.task.mq.GenerationTaskProducer;
 import com.aima.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * M1:任务状态存内存 Map(重启丢失);M2 替换为 MySQL generation_task 表,
  *     并引入 RUNNING 状态与业务级重试(上限 2 次)。
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
@@ -102,6 +104,7 @@ public class TaskServiceImpl implements TaskService {
             task.setUpdatedAt(now);
             taskMapper.updateById(task);
             producer.send(task.getId());
+            log.info("第%s次重试",task.getRetryCount());
             return;
         }
         task.setStatus("FAILED");
