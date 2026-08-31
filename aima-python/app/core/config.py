@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     java_base_url: str = "http://localhost:8080"
 
     # RocketMQ 消费配置
-    rocketmq_nameserver: str = "127.0.0.1:9876"
+    rocketmq_nameserver: str = "121.40.128.24:9876"
     consumer_group: str = "aima-generation-group"
     topic: str = "aima-generation-task"
 

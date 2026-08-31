@@ -4,7 +4,14 @@ server:
 spring:
   application:
     name: aima-java
-
+  datasource:
+    url: ${AIMA_DB_URL:jdbc:postgresql://localhost:5432/aima}
+    username: ${AIMA_DB_USERNAME:aima}
+    password: ${AIMA_DB_PASSWORD:aima123456}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
 rocketmq:
   name-server: ${ROCKETMQ_NAME_SERVER:127.0.0.1:9876}
   producer:

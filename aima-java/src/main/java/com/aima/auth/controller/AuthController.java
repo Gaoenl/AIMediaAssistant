@@ -4,12 +4,11 @@ import com.aima.auth.dto.LoginRequest;
 import com.aima.auth.dto.LoginResponse;
 import com.aima.auth.service.AuthService;
 import com.aima.common.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 /** 认证接口 */
 @RestController

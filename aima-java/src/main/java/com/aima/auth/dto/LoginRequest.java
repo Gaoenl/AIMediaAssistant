@@ -1,7 +1,7 @@
 package com.aima.auth.dto;
 
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /** 登录请求参数 */
 public record LoginRequest(

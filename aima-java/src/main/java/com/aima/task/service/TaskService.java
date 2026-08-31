@@ -12,6 +12,8 @@ public interface TaskService {
 
     /** 查询任务(前端轮询) */
     TaskView get(String id);
+    /** Python 开始生成前调用:PENDING -> RUNNING */
+    TaskView start(String id);
 
     /** 处理 Python 回调,更新任务状态与文章结果 */
     void handleCallback(String id, CallbackRequest callback);

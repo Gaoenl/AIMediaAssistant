@@ -11,6 +11,8 @@ public record TaskView(
         String title,           // 生成结果
         String content,         // 生成结果
         Integer qualityScore,   // 质检分
+        Integer retryCount,     // 业务重试次数
+        String error,           // 失败原因(可选)
         Instant createdAt,
         Instant updatedAt) {
 }

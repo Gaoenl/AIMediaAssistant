@@ -52,6 +52,35 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- M2:MyBatis Plus(Spring Boot 3) -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>3.5.7</version>
+        </dependency>
+
+        <!-- M2:PostgreSQL 驱动 -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- M2:Flyway 数据库版本管理(版本由 Spring Boot BOM 管理) -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -67,6 +96,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -79,6 +109,7 @@
                 <configuration>
                     <source>16</source>
                     <target>16</target>
+                    <parameters>true</parameters>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

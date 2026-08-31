@@ -1,7 +1,7 @@
 package com.aima.task.dto;
 
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /** 提交生成任务请求 */
 public record CreateTaskRequest(
