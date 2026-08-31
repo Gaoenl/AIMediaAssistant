@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api.routes import router
+from app.consumers.collect_consumer import start_collect_consumer
 from app.consumers.generation_consumer import start_consumer
 from app.core.logging import setup_logging
 
@@ -15,6 +16,7 @@ setup_logging()
 async def lifespan(_: FastAPI):
     """应用启动时拉起 RocketMQ 消费者线程,关闭时随进程退出。"""
     threading.Thread(target=start_consumer, daemon=True).start()
+    threading.Thread(target=start_collect_consumer, daemon=True).start()
     yield
 
 

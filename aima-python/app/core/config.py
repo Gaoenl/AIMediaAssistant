@@ -30,6 +30,11 @@ class Settings(BaseSettings):
     qwen_api_key: str = ""
     hunyuan_base_url: str = "https://api.hunyuan.cloud.tencent.com/v1"
     hunyuan_api_key: str = ""
+    # ---- 热点采集配置(M3)----
+    collect_topic: str = "aima-collect-task"
+    collect_consumer_group: str = "aima-collect-group"
+    collect_concurrency: int = 4          # 实验源低并发
+    collect_fail_threshold: int = 3       # 连续失败次数,超过标记 DOWN
     model_config = SettingsConfigDict(env_prefix="AIMA_", env_file=".env")
 
 
